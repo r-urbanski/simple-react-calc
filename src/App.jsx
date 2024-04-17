@@ -4,13 +4,15 @@ import './styles/style.scss'
 import { evaluate } from 'mathjs'
 
 const App = () => {
-    const [darkMode, setDarkMode] = useState(false)
+    localStorage.setItem('darkMode', false)
+    const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode'))
     const [input, setInput] = useState('')
     const [result, setResult] = useState()
     const ref = useRef({})
 
     useEffect(() => {
         document.body.setAttribute('data-theme', darkMode ? 'dark' : 'light')
+        localStorage.setItem('darkMode', darkMode)
     }, [darkMode])
 
     const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
@@ -27,18 +29,6 @@ const App = () => {
         }
 
         let result = evaluate(operation)
-
-        // dobre po przecinku
-        // if (result % 1 !== 0) {
-        //     const resultString = String(result)
-        //     const decimalPart = resultString.split('.')[1]
-
-        //     for (let i = decimalPart.length - 1; i > 0; i--) {
-        //         if (String(result.toFixed(i)).endsWith('0')) {
-        //             result = parseFloat(result.toFixed(i - 1))
-        //         } else break
-        //     }
-        // }
 
         return result
     }
